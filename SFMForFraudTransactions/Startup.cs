@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SFMForFraudTransactions.Data;
@@ -33,8 +29,9 @@ namespace SFMForFraudTransactions
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            // Add application services.
+            // application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             services.AddMvc();
         }
@@ -54,6 +51,8 @@ namespace SFMForFraudTransactions
             }
 
             app.UseStaticFiles();
+
+            app.UseNodeModules(env.ContentRootPath);
 
             app.UseAuthentication();
 
