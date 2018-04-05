@@ -1,0 +1,48 @@
+﻿@model TransactionsViewModel
+
+<h1>Transactions</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post" asp-action="Search">
+            <div class="container-fluid">
+                <div class="input-group">
+                    <input class="form-control" asp-for="SearchTerm" placeholder="Search by Date, Name, Fraud" />
+                </div>
+                <button class="btn btn-primary" type="submit">
+                    <i class="glyphicon glyphicon-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<hr />
+<table class="table table-striped">
+    <tr>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Origin Customer</th>
+        <th>Destination Customer</th>
+        <th>Type</th>
+        <th>Is Fraud</th>
+        <th>Is Flagged Fraud</th>
+        <th></th>
+    </tr>
+    @foreach (var transaction in Model.Transactions)
+    {
+        <tr>
+            <td>@String.Format("{0:dd/MM/yyyy}", transaction.Date)</td>
+            <td>@transaction.Amount</td>
+            <td>@transaction.OriginCustomer.Name</td>
+            <td>@transaction.DestinationCustomer.Name</td>
+            <td>@transaction.TransactionType</td>
+            <td>@transaction.IsFraud</td>
+            <td>@transaction.IsFlaggedFraud</td>
+            <td><a class="btn btn-default" asp-action="Edit" asp-route-id="@transaction.Id">Details</a></td>
+        </tr>
+    }
+</table>
+
+<div>
+    <a class="btn btn-primary" asp-action="Create">Create New Transaction</a>
+</div>

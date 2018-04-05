@@ -9,6 +9,7 @@ namespace SFMForFraudTransactions.Data
         void CreateCustomer(Customer customer);
         IEnumerable<Customer> GetAllCustomers();
         Customer GetCustomer(int id);
+        Customer GetCustomerByName(string name);
         Task<bool> SaveAsync();
     }
 }

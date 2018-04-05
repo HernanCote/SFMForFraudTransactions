@@ -24,6 +24,11 @@ namespace SFMForFraudTransactions.Data
 
         public Customer GetCustomer(int id) => _context.Customers.FirstOrDefault(c => c.Id == id);
 
+        public Customer GetCustomerByName(string name)
+        {
+            return _context.Customers.FirstOrDefault(c => c.Name.Contains(name));
+        }
+
         public async Task<bool> SaveAsync()
         {
             return (await _context.SaveChangesAsync()) > 0;

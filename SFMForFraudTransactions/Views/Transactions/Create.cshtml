@@ -1,0 +1,36 @@
+﻿@model CreateTransactionViewModel
+
+<h1>Create Transaction</h1>
+
+<div class="col-md-4">
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="OriginCustomer"></label>
+            <input asp-for="OriginCustomer" class="form-control" />
+            <span asp-validation-for="OriginCustomer" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="DestinationCustomer"></label>
+            <input asp-for="DestinationCustomer" class="form-control" />
+            <span asp-validation-for="DestinationCustomer" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Amount"></label>
+            <input asp-for="Amount" class="form-control" />
+            <span asp-validation-for="Amount" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Date"></label>
+            <input asp-for="Date" class="form-control" placeholder="eg 1 Jan 2018" />
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Type"></label>
+            <select asp-for="Type" class="form-control" asp-items="@Html.GetEnumSelectList<TransactionType>()"></select>
+            <span asp-validation-for="Type" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" name="save" value="Save" />
+        </div>
+    </form>
+</div>

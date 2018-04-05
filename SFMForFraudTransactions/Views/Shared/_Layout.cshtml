@@ -31,6 +31,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Customer" asp-action="Index">Customers</a></li>
+                    <li><a asp-area="" asp-controller="Transactions" asp-action="Index">Transactions</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
@@ -38,10 +39,12 @@
         </div>
     </nav>
     <div class="container body-content">
-        @RenderBody()
+        <div class="row">
+            @RenderBody()
+        </div>
         <hr />
         <footer>
-            <p>&copy; 2018 - SFMForFraudTransactions</p>
+            <p>&copy; 2018 - Synthentic Financial Manager System For Fraud Transactions</p>
         </footer>
     </div>
 

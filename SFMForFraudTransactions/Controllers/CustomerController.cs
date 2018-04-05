@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SFMForFraudTransactions.Data;
 using SFMForFraudTransactions.Models;
 using SFMForFraudTransactions.ViewModels;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace SFMForFraudTransactions.Controllers
 {
+    [Authorize(Roles = "Administrator, Assistant")]
     public class CustomerController : Controller
     {
         private readonly ICustomerRepository _repository;

@@ -10,6 +10,9 @@
     padding-right: 15px;
 }
 
+.actual-content {
+    display: block;
+}
 /* Carousel */
 .carousel-caption p {
     font-size: 20px;

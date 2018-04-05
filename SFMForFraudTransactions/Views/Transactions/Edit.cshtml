@@ -1,0 +1,41 @@
+﻿@model Transaction
+<h1>Edit Transaction</h1>
+<div class="col-md-4">
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="@Model.OriginCustomer.Name"></label>
+            <input asp-for="@Model.OriginCustomer.Name" class="form-control" disabled />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.DestinationCustomer.Name"></label>
+            <input asp-for="@Model.DestinationCustomer.Name" class="form-control" disabled />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Amount"></label>
+            <input asp-for="@Model.Amount" class="form-control" disabled />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Date"></label>
+            <input asp-for="@Model.Date" class="form-control" disabled />
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.TransactionType"></label>
+            <input asp-for="@Model.TransactionType" class="form-control" disabled />
+        </div>
+        <div class="form-group">
+            <div class="form-group">
+                <label asp-for="@Model.IsFraud"></label>
+                <input asp-for="@Model.IsFraud" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-group">
+                <label asp-for="@Model.IsFlaggedFraud"></label>
+                <input asp-for="@Model.IsFlaggedFraud" />
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" name="Edit" value="Update" />
+        </div>
+    </form>
+</div>
