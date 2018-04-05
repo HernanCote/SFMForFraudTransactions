@@ -50,8 +50,7 @@ namespace SFMForFraudTransactions.Controllers
                 var customer = new Customer
                 {
                     Name = model.Name,
-                    NewBalance = model.InitialBalance,
-                    OldBalance = model.InitialBalance
+                    Balance = model.InitialBalance
                 };
 
                 _repository.CreateCustomer(customer);

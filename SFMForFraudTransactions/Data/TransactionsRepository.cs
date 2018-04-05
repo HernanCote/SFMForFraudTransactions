@@ -33,7 +33,7 @@ namespace SFMForFraudTransactions.Data
             {
                 DateTime date;
                 DateTime.TryParse(query, out date);
-                transactions = transactions.Where(t => t.DestinationCustomer.Name.Contains(query) ||
+                transactions = transactions.Where(t => t.DestinationCustomer.Name.ToLower().Contains(query) ||
                                                         t.Date.ToString().Contains(date.ToString()) ||
                                                         t.IsFraud.ToString().ToLower().Contains(query)).ToList();
             }
@@ -48,6 +48,13 @@ namespace SFMForFraudTransactions.Data
 
         public void SaveTransaction(Transaction transaction)
         {
+            var business = new TransactionBusiness(transaction.OriginCustomer, transaction.DestinationCustomer, transaction.Amount);
+
+            transaction.OldBalanceOrigin = business.OldBalanceOrigin;
+            transaction.NewBalanceOrigin = business.NewBalanceOrigin;
+            transaction.OldBalanceDestination = business.OldBalanceDestination;
+            transaction.NewBalanceDestination = business.NewBalanceDestination;
+
             _context.Transactions.Add(transaction);
         }
 

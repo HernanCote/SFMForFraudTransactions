@@ -63,7 +63,12 @@ namespace SFMForFraudTransactions.Controllers
                     _transactRepository.SaveTransaction(transaction);
                     if (await _transactRepository.SaveAsync())
                     {
-                        return RedirectToAction(nameof(Index));
+                        _customerRepository.UpdateCustomers(originCustomer, destinationCustomer, transaction.Amount);
+                        if (await _customerRepository.SaveAsync())
+                        {
+                            return RedirectToAction(nameof(Index));
+                        }
+
                     }
                     else
                     {

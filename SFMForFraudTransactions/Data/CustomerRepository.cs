@@ -33,5 +33,18 @@ namespace SFMForFraudTransactions.Data
         {
             return (await _context.SaveChangesAsync()) > 0;
         }
+
+        public void UpdateCustomers(Customer originCustomer, Customer destinationCustomer, int amount)
+        {
+            var origin = GetCustomerByName(originCustomer.Name);
+            var dest = GetCustomerByName(destinationCustomer.Name);
+            if (origin != null && dest != null)
+            {
+                origin.Balance -= amount;
+                dest.Balance += amount;
+                _context.Customers.Update(origin);
+                _context.Customers.Update(dest);
+            }
+        }
     }
 }

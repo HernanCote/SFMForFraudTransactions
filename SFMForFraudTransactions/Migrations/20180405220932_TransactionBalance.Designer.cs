@@ -12,9 +12,10 @@ using System;
 namespace SFMForFraudTransactions.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180405220932_TransactionBalance")]
+    partial class TransactionBalance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -185,9 +186,9 @@ namespace SFMForFraudTransactions.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Balance");
-
                     b.Property<string>("Name");
+
+                    b.Property<int>("NewBalance");
 
                     b.HasKey("Id");
 

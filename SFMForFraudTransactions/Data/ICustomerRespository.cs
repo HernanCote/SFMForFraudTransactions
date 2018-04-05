@@ -11,5 +11,6 @@ namespace SFMForFraudTransactions.Data
         Customer GetCustomer(int id);
         Customer GetCustomerByName(string name);
         Task<bool> SaveAsync();
+        void UpdateCustomers(Customer originCustomer, Customer destinationCustomer, int amount);
     }
 }
