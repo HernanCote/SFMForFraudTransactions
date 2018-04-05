@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using SFMForFraudTransactions.Data;
@@ -39,27 +39,22 @@ namespace SFMForFraudTransactions
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options =>
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
+            AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters =
+                    new TokenValidationParameters
                     {
-                        options.TokenValidationParameters =
-                             new TokenValidationParameters
-                             {
-                                 ValidateIssuer = true,
-                                 ValidateAudience = true,
-                                 ValidateLifetime = true,
-                                 ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Tokens:Issuer"],
+                        ValidAudience = Configuration["Tokens:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"])),
 
-                                 ValidIssuer = Configuration["Tokens:Isser"],
-                                 ValidAudience = Configuration["Tokens:Audience"],
-                                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
-                             };
-                    });
-
-            // application services.
-            services.AddTransient<IEmailSender, EmailSender>();
-            services.AddScoped<ICustomerRepository, CustomerRepository>();
-            services.AddScoped<ITransactionsRepository, TransactionsRepository>();
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true
+                    };
+            });
 
             services.AddMvc(options =>
             {
@@ -67,16 +62,28 @@ namespace SFMForFraudTransactions
                 {
                     options.SslPort = 44370;
                 }
-                options.Filters.Add(new RequireHttpsAttribute());
             }).AddJsonOptions(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
+
+            // application services.
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<ITransactionsRepository, TransactionsRepository>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public void Configure(IApplicationBuilder app,
+            IHostingEnvironment env,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+
 
             var cultureInfo = new CultureInfo("en-US");
             CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
@@ -87,6 +94,7 @@ namespace SFMForFraudTransactions
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
                 app.UseDatabaseErrorPage();
+                loggerFactory.AddDebug();
             }
             else
             {

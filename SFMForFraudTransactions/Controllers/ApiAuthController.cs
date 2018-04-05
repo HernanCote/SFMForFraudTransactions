@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using SFMForFraudTransactions.Models;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -18,38 +20,21 @@ namespace SFMForFraudTransactions.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IPasswordHasher<ApplicationUser> _hasher;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<ApiAuthController> _logger;
 
         public ApiAuthController(SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             IPasswordHasher<ApplicationUser> hasher,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ILogger<ApiAuthController> logger)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _hasher = hasher;
             _configuration = configuration;
+            _logger = logger;
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] CredentialModel model)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
-                    if (result.Succeeded)
-                    {
-                        return Ok();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest();
-            }
-            return BadRequest();
-        }
 
         [HttpPost("token")]
         public async Task<IActionResult> CreateToken([FromBody] CredentialModel model)
@@ -61,11 +46,19 @@ namespace SFMForFraudTransactions.Controllers
                 {
                     if (_hasher.VerifyHashedPassword(user, user.PasswordHash, model.Password) == PasswordVerificationResult.Success)
                     {
-                        var claims = new[]
+                        var claims = new List<Claim>
                         {
                             new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                            new Claim(JwtRegisteredClaimNames.GivenName, user.UserName)
                         };
+
+                        var userRoles = await _userManager.GetRolesAsync(user);
+
+                        foreach (var role in userRoles)
+                        {
+                            claims.Add(new Claim(ClaimTypes.Role, role));
+                        }
 
                         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
                         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -88,8 +81,9 @@ namespace SFMForFraudTransactions.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Failed to generate token");
+                _logger.LogError($"Error generating token: {ex.Message}");
             }
+
             return BadRequest("Something Failed");
         }
     }
