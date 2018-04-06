@@ -1,7 +1,9 @@
 ﻿using System;
 
 namespace SFMForFraudTransactions.Models
-{
+{   /// <summary>
+    /// Transaction POCO
+    /// </summary>
     public class Transaction
     {
         public int Id { get; set; }

@@ -1,6 +1,9 @@
 ﻿using SFMForFraudTransactions.Models;
 using System.ComponentModel.DataAnnotations;
 
+/// <summary>
+/// View Model for Creating New Transactions in the Web App
+/// </summary>
 namespace SFMForFraudTransactions.ViewModels
 {
     public class CreateTransactionViewModel

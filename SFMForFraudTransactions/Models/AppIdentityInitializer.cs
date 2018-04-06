@@ -2,14 +2,26 @@
 
 namespace SFMForFraudTransactions.Models
 {
+    /// <summary>
+    /// App Users and Roles Initializer App
+    /// </summary>
     public static class AppIdentityInitializer
     {
+        /// <summary>
+        /// Seed database with users and roles
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="roleManager"></param>
         public static void SeedData(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             SeedRoles(roleManager);
             SeedUsers(userManager);
         }
 
+        /// <summary>
+        /// Create Users in the database an assign roles
+        /// </summary>
+        /// <param name="userManager"></param>
         public static void SeedUsers(UserManager<ApplicationUser> userManager)
         {
             if (userManager.FindByNameAsync("assistant@zemoga.com").Result == null)
@@ -55,6 +67,10 @@ namespace SFMForFraudTransactions.Models
             }
         }
 
+        /// <summary>
+        /// Create Roles in the database
+        /// </summary>
+        /// <param name="roleManager"></param>
         public static void SeedRoles(RoleManager<IdentityRole> roleManager)
         {
             if (!roleManager.RoleExistsAsync("Assistant").Result)

@@ -1,6 +1,9 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
+/// <summary>
+/// View Model to create new Customers
+/// </summary>
 namespace SFMForFraudTransactions.ViewModels
 {
     public class CreateCustomerViewModel

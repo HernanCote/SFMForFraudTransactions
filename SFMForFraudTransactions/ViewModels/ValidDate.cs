@@ -4,8 +4,16 @@ using System.Globalization;
 
 namespace SFMForFraudTransactions.ViewModels
 {
+    /// <summary>
+    /// Custom Class to Validate Date Inputs
+    /// </summary>
     public class ValidDate : ValidationAttribute
     {
+        /// <summary>
+        /// Works with the object passed as parameter to ensure it is a valid DateTime
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>Valid</returns>
         public override bool IsValid(object value)
         {
             DateTime dateTime;
