@@ -11,7 +11,6 @@ using Newtonsoft.Json;
 using SFMForFraudTransactions.Data;
 using SFMForFraudTransactions.Models;
 using SFMForFraudTransactions.Services;
-using Swashbuckle.AspNetCore.Swagger;
 using System.Globalization;
 using System.Text;
 
@@ -75,22 +74,12 @@ namespace SFMForFraudTransactions
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
 
-            services.AddSwaggerGen(c =>
-           {
-               c.SwaggerDoc("v1", new Info
-               {
-                   Version = "v1",
-                   Title = "SFMFT API",
-                   Description = "Synthentic Financial Manager System For Detecting Fraud Transactions API",
-                   TermsOfService = "None",
-                   Contact = new Contact() { Name = "Hernan Cote", Email = "hernan.cote@outlook.com", Url = "https://co.linkedin/in/hernancote" }
-               });
-           });
 
             // application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<ITransactionsRepository, TransactionsRepository>();
+            services.AddTransient<DbInitializer>();
 
 
         }
@@ -100,7 +89,8 @@ namespace SFMForFraudTransactions
             IHostingEnvironment env,
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            DbInitializer seeder)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 
@@ -123,7 +113,11 @@ namespace SFMForFraudTransactions
 
             app.UseStaticFiles();
 
-            app.UseNodeModules(env.ContentRootPath);
+            if (env.IsDevelopment())
+            {
+                app.UseNodeModules(env.ContentRootPath);
+            }
+
 
             app.UseAuthentication();
 
@@ -137,11 +131,8 @@ namespace SFMForFraudTransactions
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SFMFT API V1");
-            });
+            seeder.Seed().Wait();
+
         }
     }
 }
