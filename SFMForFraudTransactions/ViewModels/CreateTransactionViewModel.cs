@@ -19,6 +19,7 @@ namespace SFMForFraudTransactions.ViewModels
         public int Amount { get; set; }
 
         [Display(Name = "Transaction Type")]
+        [Required]
         public TransactionType Type { get; set; }
 
         [ValidDate]

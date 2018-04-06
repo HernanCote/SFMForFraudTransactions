@@ -10,7 +10,6 @@ namespace SFMForFraudTransactions.Data
         Transaction UpdateTransaction(Transaction transaction);
         IEnumerable<Transaction> GetAllTranstactions(string query = null);
         Transaction GetTransactionById(int id);
-        IEnumerable<Transaction> GetTransactionByQuery();
         Task<bool> SaveAsync();
     }
 }

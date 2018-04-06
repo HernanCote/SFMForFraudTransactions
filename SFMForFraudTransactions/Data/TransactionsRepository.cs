@@ -20,11 +20,6 @@ namespace SFMForFraudTransactions.Data
             return _context.Transactions.Include(t => t.OriginCustomer).Include(t => t.DestinationCustomer).FirstOrDefault(t => t.Id == id);
         }
 
-        public IEnumerable<Transaction> GetTransactionByQuery()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public IEnumerable<Transaction> GetAllTranstactions(string query = null)
         {
             var transactions = _context.Transactions.Include(t => t.OriginCustomer).Include(t => t.DestinationCustomer).ToList();
