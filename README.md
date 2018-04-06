@@ -1,4 +1,4 @@
-# Project Title
+# Synthentic Financial Manager System for Fraud Transactions
 
 Synthentic Financial Manager System For Fraud Transactions
 v 1.1 Apr 2018
@@ -411,7 +411,7 @@ You can use a Continuos Delivery Pipeline in order to deploy the Solution to Azu
 
 ## Authors
 
-* **Hern·n Cote** - *Initial work* - [HernanCote](https://github.com/HernanCote)
+* **Hern√°n Cote** - *Initial work* - [HernanCote](https://github.com/HernanCote)
 
 
 ## Acknowledgments
