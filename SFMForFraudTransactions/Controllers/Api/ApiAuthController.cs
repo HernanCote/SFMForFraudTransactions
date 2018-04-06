@@ -22,6 +22,13 @@ namespace SFMForFraudTransactions.Controllers
         private readonly IConfiguration _configuration;
         private readonly ILogger<ApiAuthController> _logger;
 
+        /// <summary>
+        /// </summary>
+        /// <param name="signInManager"></param>
+        /// <param name="userManager"></param>
+        /// <param name="hasher"></param>
+        /// <param name="configuration"></param>
+        /// <param name="logger"></param>
         public ApiAuthController(SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             IPasswordHasher<ApplicationUser> hasher,
@@ -36,6 +43,11 @@ namespace SFMForFraudTransactions.Controllers
         }
 
 
+        /// <summary>
+        /// Create JWT token in order to authorize a user to use the API.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost("token")]
         public async Task<IActionResult> CreateToken([FromBody] CredentialModel model)
         {

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SFMForFraudTransactions.Models;
+using System.Diagnostics;
 
 namespace SFMForFraudTransactions.Controllers
 {
@@ -24,7 +20,7 @@ namespace SFMForFraudTransactions.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "Built by Hernán Felipe Cote Martínez";
 
             return View();
         }

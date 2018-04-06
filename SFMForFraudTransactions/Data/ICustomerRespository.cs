@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace SFMForFraudTransactions.Data
 {
+    /// <summary>
+    /// Customer Repository interface
+    /// </summary>
     public interface ICustomerRepository
     {
         void CreateCustomer(Customer customer);

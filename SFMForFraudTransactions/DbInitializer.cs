@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace SFMForFraudTransactions
 {
+    /// <summary>
+    /// Database Initializer Class to Initialize the database with customers if there are no customers in the customer table
+    /// </summary>
     public class DbInitializer
     {
         private ApplicationDbContext _context;
@@ -15,6 +18,10 @@ namespace SFMForFraudTransactions
             _context = context;
         }
 
+        /// <summary>
+        /// Call this Method to start seeding the database
+        /// </summary>
+        /// <returns></returns>
         public async Task Seed()
         {
             if (!_context.Customers.Any())

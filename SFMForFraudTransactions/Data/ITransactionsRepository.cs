@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace SFMForFraudTransactions.Data
 {
+    /// <summary>
+    /// Transaction Repository Interface
+    /// </summary>
     public interface ITransactionsRepository
     {
         void SaveTransaction(Transaction transaction);
