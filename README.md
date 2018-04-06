@@ -47,7 +47,7 @@ When you first run the MVC App, a seed method will start populating the customer
 #### Constraints
 
 * Only Assistant and Administrator roles can create new transactions.
-** In order to save a transaction, the name of a customer must exists, otherwise the operation will fail.
+* In order to save a transaction, the name of a customer must exists, otherwise the operation will fail.
 * Only Assistant and Administraror roles can create new customers.
 * Only Manager and Administrator roles can modify and update an existig transaction in order to mark them as Fraud or Flagged Fraud
 * Only Assistant and Administrator roles can Search for existing transactions 
@@ -58,6 +58,12 @@ When you first run the MVC App, a seed method will start populating the customer
 The API is protected by a JWT Token authentication schema, in order to access this API you will first need to Authorize your self.
 
 In order to authenticate, you will need to send an HTTP Request via Postman or any HTTP Request method that you like
+
+#### Constraints
+
+* Only assistant and administrator roles can create new transactions.
+* Only assistant and administrator roles can search for transactions.
+* All roles can see the list of transactions
 
 #### Authentication
 ```
@@ -395,7 +401,7 @@ You can copy the same configuration existing in the appsetting.json file.
 Next, change the connection string to your selected Azure SQL Database string.
 
 You can use a Continuos Delivery Pipeline in order to deploy the Solution to Azure with VSTS or use the out of the box Visual Studio Wizard to deploy to your selected Azure Web App, you can follow the instructions listed in the following site:
-*[Publishing to Azure](https://docs.microsoft.com/en-us/aspnet/core/tutorials/publish-to-azure-webapp-using-vs)
+* [Publishing to Azure](https://docs.microsoft.com/en-us/aspnet/core/tutorials/publish-to-azure-webapp-using-vs)
 
 
 
