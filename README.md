@@ -227,6 +227,7 @@ If the service fail to register the transaction, it will inform you with a statu
 
 #### Search Transaction
 
+```
 For a request to the Hosted Web App:
 https://zemogahernan.azurewebsites.net/api/transactions/search
 
