@@ -24,7 +24,7 @@ The following credentials ara available to login with role based authentication:
 
 #### Admin User
 ```
-User: administrtor@zemoga.com
+User: administrator@zemoga.com
 Password: AdminPassword3;
 ```
 
@@ -57,7 +57,7 @@ When you first run the MVC App, a seed method will start populating the customer
 
 The API is protected by a JWT Token authentication schema, in order to access this API you will first need to Authorize your self.
 
-In order to authenticate, you will need to send an HTTP Request via Postman or any HTTP Request method that you like
+In order to authenticate, you will need to send an HTTP Request via Postman or any HTTP Request method that you like.
 
 #### Constraints
 
