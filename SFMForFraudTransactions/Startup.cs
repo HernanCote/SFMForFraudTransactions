@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using SFMForFraudTransactions.Data;
 using SFMForFraudTransactions.Models;
 using SFMForFraudTransactions.Services;
+using Swashbuckle.AspNetCore.Swagger;
 using System.Globalization;
 using System.Text;
 
@@ -22,6 +23,13 @@ namespace SFMForFraudTransactions
         {
             Configuration = configuration;
             _env = env;
+
+            var builder = new ConfigurationBuilder()
+                    .SetBasePath(_env.ContentRootPath)
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .AddJsonFile($"appsettings.{_env.EnvironmentName}.json", optional: true)
+                    .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -66,6 +74,18 @@ namespace SFMForFraudTransactions
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
+
+            services.AddSwaggerGen(c =>
+           {
+               c.SwaggerDoc("v1", new Info
+               {
+                   Version = "v1",
+                   Title = "SFMFT API",
+                   Description = "Synthentic Financial Manager System For Detecting Fraud Transactions API",
+                   TermsOfService = "None",
+                   Contact = new Contact() { Name = "Hernan Cote", Email = "hernan.cote@outlook.com", Url = "https://co.linkedin/in/hernancote" }
+               });
+           });
 
             // application services.
             services.AddTransient<IEmailSender, EmailSender>();
@@ -115,6 +135,12 @@ namespace SFMForFraudTransactions
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SFMFT API V1");
             });
         }
     }
